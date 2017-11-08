@@ -14,35 +14,22 @@
 //along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //See README and LICENSE for more details
 
-//Based on work by Matthew Chen
-//Copyright (C) 2017 Matthew Chen
+#ifndef GRAPH_H
+#define GRAPH_H
+
+#include <string>
+#include <fstream>
+#include <vector>
 
 #include "node.h"
 
-Node::Node(const std::string &text) {
-	std::istringstream ss(text);
-	ss >> name;
-	while (ss) {
-		std::string node;
-		float distance;
-		ss >> node;
-		ss >> distance;
-		adjacentNodes[node] = distance;
-	}
-}
+class Graph {
+	std::vector<Node*> nodes;
+public:
+	Graph(const std::string&);
+	void save(const std::string&);
 
-std::string Node::toString() {
-	std::ostringstream ss;
-	for (std::map<std::string, float>::iterator it = adjacentNodes.begin(); it != adjacentNodes.end(); it++) {
-		ss << it->first << " " << it->second << " ";
-	}
-	return ss.str();
-}
+	std::vector<Node*> getNodes();
+};
 
-std::map<std::string, float> Node::getAdjacentNodes() {
-	return adjacentNodes;
-}
-
-std::string Node::getName() {
-	return name;
-}
+#endif

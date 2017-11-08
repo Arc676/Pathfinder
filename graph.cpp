@@ -14,35 +14,34 @@
 //along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //See README and LICENSE for more details
 
-//Based on work by Matthew Chen
-//Copyright (C) 2017 Matthew Chen
+#include "graph.h"
 
-#include "node.h"
-
-Node::Node(const std::string &text) {
-	std::istringstream ss(text);
-	ss >> name;
-	while (ss) {
-		std::string node;
-		float distance;
-		ss >> node;
-		ss >> distance;
-		adjacentNodes[node] = distance;
+Graph::Graph(const std::string &filename) {
+	nodes = std::vector();
+	std::ifstream file;
+	file.open(filename);
+	if (!file.is_open()) {
+		return;
 	}
-}
-
-std::string Node::toString() {
-	std::ostringstream ss;
-	for (std::map<std::string, float>::iterator it = adjacentNodes.begin(); it != adjacentNodes.end(); it++) {
-		ss << it->first << " " << it->second << " ";
+	std::string line;
+	while (getline(file, line)) {
+		nodes.push_back(new Node(line));
 	}
-	return ss.str();
+	file.close();
 }
 
-std::map<std::string, float> Node::getAdjacentNodes() {
-	return adjacentNodes;
+void Graph::save(const std::string &filename) {
+	std::ofstream file;
+	file.open(filename);
+	if (!file.is_open()) {
+		return;
+	}
+	for (std::vector<Node*>::iterator it = nodes.begin(); it != nodes.end(); it++) {
+		file << (*it)->toString() << "\n";
+	}
+	file.close();
 }
 
-std::string Node::getName() {
-	return name;
+std::vector<Node*> getNodes() {
+	return node;
 }

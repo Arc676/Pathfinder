@@ -29,6 +29,8 @@ class Node {
 	std::map<std::string, float> adjacentNodes;
 public:
 	Node(const std::string&);
+	std::string toString();
+
 	std::map<std::string, float> getAdjacentNodes;
 	std::string getName();
 };
