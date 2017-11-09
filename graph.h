@@ -29,7 +29,7 @@ public:
 	Graph(const std::string&);
 	void save(const std::string&);
 
-	std::vector<std::string, Node*> getNodes();
+	std::map<std::string, Node*> getNodes();
 };
 
 #endif

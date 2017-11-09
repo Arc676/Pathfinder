@@ -44,7 +44,7 @@ std::list<Node*> Pathfinder::dijkstra(Graph* graph, Node* start, Node* end) {
 
 	while (true) {
 		nodeLock[current] = true;
-		if (nodeLock[dest]) {
+		if (nodeLock[end]) {
 			break;
 		}
 		for (std::map<std::string, float>::iterator it = current->getAdjacentNodes().begin(); it != current->getAdjacentNodes().end(); it++) {
