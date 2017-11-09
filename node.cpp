@@ -26,6 +26,9 @@ Node::Node(const std::string &text) {
 		std::string node;
 		float distance;
 		ss >> node;
+		if (node == "") {
+			break;
+		}
 		ss >> distance;
 		adjacentNodes[node] = distance;
 	}
@@ -33,6 +36,7 @@ Node::Node(const std::string &text) {
 
 std::string Node::toString() {
 	std::ostringstream ss;
+	ss << name << " ";;
 	for (std::map<std::string, float>::iterator it = adjacentNodes.begin(); it != adjacentNodes.end(); it++) {
 		ss << it->first << " " << it->second << " ";
 	}

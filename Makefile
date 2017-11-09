@@ -2,7 +2,7 @@ CC=g++
 FLAGS=-std=c++11 -c
 OBJS=node.o graph.o
 
-lib:
+lib: $(OBJS)
 	ar rcs libgraph.a $(OBJS)
 
 node.o:

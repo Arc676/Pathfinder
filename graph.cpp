@@ -16,8 +16,7 @@
 
 #include "graph.h"
 
-Graph::Graph(const std::string &filename) {
-	nodes = std::vector();
+Graph::Graph(const std::string &filename) : nodes() {
 	std::ifstream file;
 	file.open(filename);
 	if (!file.is_open()) {
@@ -42,6 +41,6 @@ void Graph::save(const std::string &filename) {
 	file.close();
 }
 
-std::vector<Node*> getNodes() {
-	return node;
+std::vector<Node*> Graph::getNodes() {
+	return nodes;
 }

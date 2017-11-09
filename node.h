@@ -31,7 +31,7 @@ public:
 	Node(const std::string&);
 	std::string toString();
 
-	std::map<std::string, float> getAdjacentNodes;
+	std::map<std::string, float> getAdjacentNodes();
 	std::string getName();
 };
 
