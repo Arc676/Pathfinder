@@ -28,11 +28,7 @@ Node* Pathfinder::findNodeByName(std::vector<Node*> nodes, Node* node) {
 	return nullptr;
 }
 */
-std::vector<Node*> Pathfinder::dijkstra(Graph* graph, Node* start, Node* end) {
-/*	std::vector<Node*> nodes = graph->getNodes();
-	Node* current = Pathfinder::findNodeByName(nodes, start);
-	Node* dest = Pathfinder::findNodeByName(nodes, end);*/
-
+std::list<Node*> Pathfinder::dijkstra(Graph* graph, Node* start, Node* end) {
 	std::map<std::string, Node*> nodes = graph->getNodes();
 	Node* current = nodes[start->getName()];
 
@@ -69,7 +65,11 @@ std::vector<Node*> Pathfinder::dijkstra(Graph* graph, Node* start, Node* end) {
 	std::list<Node*> path;
 	path.push_front(current);
 	while (current->getName() != start->getName()) {
-		
+		for (std::map<std::string, float>::iterator it = current->getAdjacentNodes().begin(); it != current->getAdjacentNodes().end; it++) {
+			Node* node = nodes[it->first];
+			float delta = nodeDistances[current] - nodeDistances[node];
+			
+		}
 	}
 	return path;
 }
