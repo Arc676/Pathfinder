@@ -18,52 +18,39 @@
 //Copyright (C) 2017 Matthew Chen
 
 #include "pathfinder.h"
-/*
-Node* Pathfinder::findNodeByName(std::vector<Node*> nodes, Node* node) {
-	for (std::vector<Node*>::iterator it = nodes.begin(); it != nodes.end(); it++) {
-		if ((*it)->getName() == node->getName()) {
-			return *it;
-		}
-	}
-	return nullptr;
-}
-*/
+
 std::list<Node*> Pathfinder::dijkstra(Graph* graph, Node* start, Node* end) {
 	std::map<std::string, Node*> nodes = graph->getNodes();
 	Node* current = nodes[start->getName()];
 
-	std::map<Node*, bool> nodeLock;
-	std::map<Node*, float> nodeDistances;
-	std::map<Node*, Node*> nodeBestPath;
+	std::map<Node*, NodeInfo> nodeInfo;
 	for (std::map<std::string, Node*>::iterator it = nodes.begin(); it != nodes.end(); it++) {
-		nodeLock[it->second] = false;
-		nodeDistances[it->second] = -1;
-		nodeBestPath[it->second] = nullptr;
+		nodeInfo[it->second] = {false, -1, nullptr};
 	}
-	nodeDistances[start] = 0;
-	nodeBestPath[start] = start;
+	nodeInfo[start].distance = 0;
+	nodeInfo[start].bestPath = start;
 
 	while (true) {
-		nodeLock[current] = true;
-		if (nodeLock[end]) {
+		nodeInfo[current].locked = true;
+		if (nodeInfo[end].locked) {
 			break;
 		}
 		std::map<std::string, float> adjacent = current->getAdjacentNodes();
 		for (std::map<std::string, float>::iterator it = adjacent.begin(); it != adjacent.end(); it++) {
 			Node* nextNode = nodes[it->first];
-			float currentDistance = it->second + nodeDistances[current];
-			if (nodeDistances[nextNode] < 0 ||
-			    currentDistance < nodeDistances[nextNode]) {
-				nodeDistances[nextNode] = currentDistance;
-				nodeBestPath[nextNode] = current;
+			float currentDistance = it->second + nodeInfo[current].distance;
+			if (nodeInfo[nextNode].distance < 0 ||
+			    currentDistance < nodeInfo[nextNode].distance) {
+				nodeInfo[nextNode].distance = currentDistance;
+				nodeInfo[nextNode].bestPath = current;
 			}
 		}
 		float lowestDistance = -1;
 		for (std::map<std::string, Node*>::iterator it = nodes.begin(); it != nodes.end(); it++) {
 			Node* node = it->second;
-			if (!nodeLock[node] && (lowestDistance < 0 || 
-						(nodeDistances[node] > 0 && nodeDistances[node] < lowestDistance))) {
-				lowestDistance = nodeDistances[node];
+			if (!nodeInfo[node].locked && (lowestDistance < 0 || 
+							(nodeInfo[node].distance > 0 && nodeInfo[node].distance < lowestDistance))) {
+				lowestDistance = nodeInfo[node].distance;
 				current = node;
 			}
 		}
@@ -72,7 +59,7 @@ std::list<Node*> Pathfinder::dijkstra(Graph* graph, Node* start, Node* end) {
 	std::list<Node*> path;
 	path.push_front(current);
 	while (current->getName() != start->getName()) {
-		current = nodeBestPath[current];
+		current = nodeInfo[current].bestPath;
 		path.push_front(current);
 	}
 	return path;

@@ -25,6 +25,12 @@
 
 #include "graph.h"
 
+struct NodeInfo {
+	bool locked;
+	float distance;
+	Node* bestPath;
+};
+
 class Pathfinder {
 public:
 	static std::list<Node*> dijkstra(Graph*, Node*, Node*);
