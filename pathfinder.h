@@ -14,22 +14,20 @@
 //along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //See README and LICENSE for more details
 
-#ifndef GRAPH_H
-#define GRAPH_H
+//Based on work by Matthew Chen
+//Copyright (C) 2017 Matthew Chen
 
-#include <string>
-#include <fstream>
+#ifndef PATHFINDER_H
+#define PATHFINDER_H
+
+#include <list>
 #include <map>
 
-#include "node.h"
+#include "graph.h"
 
-class Graph {
-	std::map<std::string, Node*> nodes;
+class Pathfinder {
 public:
-	Graph(const std::string&);
-	void save(const std::string&);
-
-	std::vector<std::string, Node*> getNodes();
+	static std::list<Node*> dijkstra(Graph*, Node*, Node*);
 };
 
 #endif

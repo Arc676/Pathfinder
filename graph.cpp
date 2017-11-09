@@ -24,7 +24,8 @@ Graph::Graph(const std::string &filename) : nodes() {
 	}
 	std::string line;
 	while (getline(file, line)) {
-		nodes.push_back(new Node(line));
+		Node* n = new Node(line);
+		nodes[n->getName()] = n;
 	}
 	file.close();
 }
@@ -35,12 +36,12 @@ void Graph::save(const std::string &filename) {
 	if (!file.is_open()) {
 		return;
 	}
-	for (std::vector<Node*>::iterator it = nodes.begin(); it != nodes.end(); it++) {
-		file << (*it)->toString() << "\n";
+	for (std::map<std::string, Node*>::iterator it = nodes.begin(); it != nodes.end(); it++) {
+		file << it->second->toString() << "\n";
 	}
 	file.close();
 }
 
-std::vector<Node*> Graph::getNodes() {
+std::map<std::string, Node*> Graph::getNodes() {
 	return nodes;
 }
