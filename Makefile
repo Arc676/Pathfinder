@@ -2,6 +2,9 @@ CC=g++
 FLAGS=-std=c++11 -c
 OBJS=node.o graph.o pathfinder.o
 
+debug: FLAGS += -O0 -g
+debug: lib
+
 lib: $(OBJS)
 	ar rcs libgraph.a $(OBJS)
 
