@@ -30,6 +30,8 @@ public:
 	void save(const std::string&);
 
 	std::map<std::string, Node*> getNodes();
+	void addNode(Node*);
+	void removeNode(Node*);
 };
 
 #endif

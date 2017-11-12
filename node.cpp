@@ -50,3 +50,11 @@ std::map<std::string, float> Node::getAdjacentNodes() {
 std::string Node::getName() {
 	return name;
 }
+
+void Node::addAdjacentNode(Node* node, float distance) {
+	adjacentNodes[node->getName()] = distance;
+}
+
+void Node::removeAdjacentNode(Node* node) {
+	adjacentNodes.erase(node->getName());
+}

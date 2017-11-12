@@ -45,3 +45,11 @@ void Graph::save(const std::string &filename) {
 std::map<std::string, Node*> Graph::getNodes() {
 	return nodes;
 }
+
+void Graph::addNode(Node* node) {
+	nodes[node->getName()] = node;
+}
+
+void Graph::removeNode(Node* node) {
+	nodes.erase(node->getName());
+}
