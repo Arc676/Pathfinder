@@ -51,5 +51,13 @@ void Graph::addNode(Node* node) {
 }
 
 void Graph::removeNode(Node* node) {
+	for (std::map<std::string, Node*>::iterator it = nodes.begin(); it != nodes.end(); it++) {
+		if (it->second->getName() == node->getName()) {
+			continue;
+		}
+		if (it->second->getAdjacentNodes().count(node->getName()) != 0) {
+			it->second->removeAdjacentNode(node);
+		}
+	}
 	nodes.erase(node->getName());
 }
