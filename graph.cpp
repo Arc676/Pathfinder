@@ -16,7 +16,9 @@
 
 #include "graph.h"
 
-Graph::Graph(const std::string &filename) : nodes() {
+Graph::Graph() : nodes() {}
+
+Graph::Graph(const std::string &filename) : Graph() {
 	std::ifstream file;
 	file.open(filename);
 	if (!file.is_open()) {
@@ -24,10 +26,14 @@ Graph::Graph(const std::string &filename) : nodes() {
 	}
 	std::string line;
 	while (getline(file, line)) {
-		Node* n = new Node(line);
-		nodes[n->getName()] = n;
+		loadGraphDataFromString(line);
 	}
 	file.close();
+}
+
+void Graph::loadGraphDataFromString(const std::string& data) {
+	Node* n = new Node(data);
+	nodes[n->getName()] = n;
 }
 
 void Graph::save(const std::string &filename) {
@@ -36,10 +42,16 @@ void Graph::save(const std::string &filename) {
 	if (!file.is_open()) {
 		return;
 	}
-	for (std::map<std::string, Node*>::iterator it = nodes.begin(); it != nodes.end(); it++) {
-		file << it->second->toString() << "\n";
-	}
+	file << toString();
 	file.close();
+}
+
+std::string Graph::toString() {
+	std::stringstream ss;
+	for (std::map<std::string, Node*>::iterator it = nodes.begin(); it != nodes.end(); it++) {
+		ss << it->second->toString() << "\n";
+	}
+	return ss.str();
 }
 
 std::map<std::string, Node*> Graph::getNodes() {
