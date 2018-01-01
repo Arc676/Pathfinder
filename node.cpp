@@ -53,9 +53,17 @@ std::string Node::getName() {
 }
 
 void Node::addAdjacentNode(Node* node, float distance) {
-	adjacentNodes[node->getName()] = distance;
+	addAdjacentNodeByName(node->getName(), distance);
+}
+
+void Node::addAdjacentNodeByName(const std::string &name, float distance) {
+	adjacentNodes[name] = distance;
 }
 
 void Node::removeAdjacentNode(Node* node) {
-	adjacentNodes.erase(node->getName());
+	removeAdjacentNodeByName(node->getName());
+}
+
+void Node::removeAdjacentNodeByName(const std::string &name) {
+	adjacentNodes.erase(name);
 }

@@ -35,7 +35,10 @@ public:
 	std::map<std::string, float> getAdjacentNodes();
 	std::string getName();
 
+	void addAdjacentNodeByName(const std::string&, float);
 	void addAdjacentNode(Node*, float);
+
+	void removeAdjacentNodeByName(const std::string&);
 	void removeAdjacentNode(Node*);
 };
 
