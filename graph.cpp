@@ -81,7 +81,9 @@ void Graph::renameNode(Node* node, const std::string &newName) {
 	}
 	std::string originalName = node->getName();
 	Node* modifiedNode = nodes[originalName];
+	nodes.erase(originalName);
 	modifiedNode->setName(newName);
+	nodes[newName] = modifiedNode;
 	for (std::map<std::string, Node*>::iterator it = nodes.begin(); it != nodes.end(); it++) {
 		std::map<std::string, float> adjacent = it->second->getAdjacentNodes();
 		bool needsUpdate = false;
