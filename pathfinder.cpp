@@ -61,6 +61,10 @@ std::list<Node*> Pathfinder::dijkstra(Graph* graph, Node* start, Node* end) {
 	path.push_front(current);
 	while (current->getName() != start->getName()) {
 		current = nodeInfo[current].bestPath;
+		if (current == nullptr) {
+			path.clear();
+			break;
+		}
 		path.push_front(current);
 	}
 	return path;
