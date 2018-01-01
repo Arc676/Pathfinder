@@ -37,6 +37,8 @@ public:
 	std::map<std::string, Node*> getNodes();
 	void addNode(Node*);
 	void removeNode(Node*);
+
+	void renameNode(Node*, const std::string&);
 };
 
 #endif

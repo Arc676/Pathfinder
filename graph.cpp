@@ -74,3 +74,27 @@ void Graph::removeNode(Node* node) {
 	}
 	nodes.erase(node->getName());
 }
+
+void Graph::renameNode(Node* node, const std::string &newName) {
+	if (node->getName() == newName) {
+		return;
+	}
+	Node* modifiedNode = nodes[node->getName()];
+	modifiedNode->setName(newName);
+	for (std::map<std::string, Node*>::iterator it = nodes.begin(); it != nodes.end(); it++) {
+		std::map<std::string, float> adjacent = it->second->getAdjacentNodes();
+		bool needsUpdate = false;
+		float dist = 0;
+		for (std::map<std::string, float>::iterator it2 = adjacent.begin(); it2 != adjacent.end(); it2++) {
+			if (it2->first == node->getName()) {
+				needsUpdate = true;
+				dist = it2->second;
+				break;
+			}
+		}
+		if (needsUpdate) {
+			it->second->removeAdjacentNodeByName(node->getName());
+			it->second->addAdjacentNode(modifiedNode, dist);
+		}
+	}
+}

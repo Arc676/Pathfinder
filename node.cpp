@@ -48,6 +48,10 @@ std::map<std::string, float> Node::getAdjacentNodes() {
 	return adjacentNodes;
 }
 
+void Node::setName(const std::string &newName) {
+	name = newName;
+}
+
 std::string Node::getName() {
 	return name;
 }

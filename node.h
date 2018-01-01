@@ -33,6 +33,8 @@ public:
 	std::string toString();
 
 	std::map<std::string, float> getAdjacentNodes();
+
+	void setName(const std::string&);
 	std::string getName();
 
 	void addAdjacentNodeByName(const std::string&, float);
