@@ -35,14 +35,14 @@ Graph::Graph(const std::string &filename) : Graph() {
 Graph* Graph::copy() {
 	Graph* g = new Graph();
 	for (std::map<std::string, Node*>::iterator it = nodes.begin(); it != nodes.end(); it++) {
-		g->addNodeFromString(it->second->toString());
+		g->addNode(it->second->copy());
 	}
 	return g;
 }
 
 Node* Graph::addNodeFromString(const std::string& data) {
 	Node* n = new Node(data);
-	nodes[n->getName()] = n;
+	addNode(n);
 	return n;
 }
 
