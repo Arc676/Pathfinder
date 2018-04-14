@@ -32,9 +32,10 @@ Graph::Graph(const std::string &filename) : Graph() {
 	file.close();
 }
 
-void Graph::addNodeFromString(const std::string& data) {
+Node* Graph::addNodeFromString(const std::string& data) {
 	Node* n = new Node(data);
 	nodes[n->getName()] = n;
+	return n;
 }
 
 void Graph::save(const std::string &filename) {
