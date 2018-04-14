@@ -20,4 +20,4 @@ pathfinder.o:
 	$(CC) $(FLAGS) pathfinder.cpp
 
 clean:
-	rm -f libgraph.a $(OBJS)
+	rm -f libgraph.a libgraphd.a $(OBJS)

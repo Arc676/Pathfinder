@@ -1,4 +1,4 @@
-//Pathfinder library, version 1.1
+//Pathfinder library, version 1.2
 //Written by Arc676/Alessandro Vinciguerra <alesvinciguerra@gmail.com>
 //Copyright (C) 2017-2018 Arc676/Alessandro Vinciguerra
 
