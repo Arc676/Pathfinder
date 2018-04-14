@@ -32,7 +32,7 @@ Graph::Graph(const std::string &filename) : Graph() {
 	file.close();
 }
 
-void Graph::loadGraphDataFromString(const std::string& data) {
+void Graph::addNodeFromString(const std::string& data) {
 	Node* n = new Node(data);
 	nodes[n->getName()] = n;
 }

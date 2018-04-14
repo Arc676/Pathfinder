@@ -29,7 +29,7 @@ class Graph {
 public:
 	Graph();
 	Graph(const std::string&);
-	void loadGraphDataFromString(const std::string&);
+	void addNodeFromString(const std::string&);
 
 	std::string toString();
 	void save(const std::string&);
