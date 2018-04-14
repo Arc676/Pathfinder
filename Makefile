@@ -1,6 +1,6 @@
 CC=g++
 FLAGS=-std=c++11 -c
-OBJS=node.o graph.o pathfinder.o
+OBJS=node.o graph.o pathfinder.o edge.o
 OUT=libgraph.a
 
 debug: FLAGS += -O0 -g
@@ -18,6 +18,9 @@ graph.o:
 
 pathfinder.o:
 	$(CC) $(FLAGS) pathfinder.cpp
+
+edge.o:
+	$(CC) $(FLAGS) edge.cpp
 
 clean:
 	rm -f libgraph.a libgraphd.a $(OBJS)

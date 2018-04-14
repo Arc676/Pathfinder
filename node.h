@@ -25,15 +25,17 @@
 #include <sstream>
 #include <string>
 
+#include "edge.h"
+
 class Node {
 	std::string name;
-	std::map<std::string, float> adjacentNodes;
+	std::map<std::string, Edge*> adjacentNodes;
 public:
 	Node(const std::string&);
 	Node* copy();
 	std::string toString();
 
-	std::map<std::string, float> getAdjacentNodes();
+	std::map<std::string, Edge*> getAdjacentNodes();
 
 	void setName(const std::string&);
 	std::string getName();

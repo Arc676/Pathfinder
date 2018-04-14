@@ -31,7 +31,7 @@ Node::Node(const std::string &text) {
 			break;
 		}
 		ss >> distance;
-		adjacentNodes[node] = distance;
+		addAdjacentNodeByName(node, distance);
 	}
 }
 
@@ -42,13 +42,13 @@ Node* Node::copy() {
 std::string Node::toString() {
 	std::ostringstream ss;
 	ss << name << " ";;
-	for (std::map<std::string, float>::iterator it = adjacentNodes.begin(); it != adjacentNodes.end(); it++) {
-		ss << it->first << " " << it->second << " ";
+	for (std::map<std::string, Edge*>::iterator it = adjacentNodes.begin(); it != adjacentNodes.end(); it++) {
+		ss << it->first << " " << it->second->getWeight() << " ";
 	}
 	return ss.str();
 }
 
-std::map<std::string, float> Node::getAdjacentNodes() {
+std::map<std::string, Edge*> Node::getAdjacentNodes() {
 	return adjacentNodes;
 }
 
@@ -65,7 +65,7 @@ void Node::addAdjacentNode(Node* node, float distance) {
 }
 
 void Node::addAdjacentNodeByName(const std::string &name, float distance) {
-	adjacentNodes[name] = distance;
+	adjacentNodes[name] = new Edge(getName(), name, distance);
 }
 
 void Node::removeAdjacentNode(Node* node) {

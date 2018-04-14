@@ -16,18 +16,14 @@
 //See README and LICENSE for more details
 
 #include "edge.h"
-#include "node.h"
 
-Edge::Edge(Node* n1, Node* n2, float dist) : dist(dist) {
-	node1 = n1;
-	node2 = n2;
-}
+Edge::Edge(std::string n1, std::string n2, float dist) : node1(n1), node2(n2), dist(dist) {}
 
-Node* Edge::getNode1() {
+std::string Edge::getNode1() {
 	return node1;
 }
 
-Node* Edge::getNode2() {
+std::string Edge::getNode2() {
 	return node2;
 }
 

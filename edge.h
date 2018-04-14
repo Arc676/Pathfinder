@@ -18,17 +18,17 @@
 #ifndef EDGE_H
 #define EDGE_H
 
-class Node;
+#include <string>
 
 class Edge {
-	Node* node1;
-	Node* node2;
+	std::string node1;
+	std::string node2;
 	float dist;
 public:
-	Edge(Node*, Node*, float);
+	Edge(std::string, std::string, float);
 
-	Node* getNode1();
-	Node* getNode2();
+	std::string getNode1();
+	std::string getNode2();
 	float getWeight();
 };
 
