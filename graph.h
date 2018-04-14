@@ -29,6 +29,8 @@ class Graph {
 public:
 	Graph();
 	Graph(const std::string&);
+	Graph* copy();
+
 	Node* addNodeFromString(const std::string&);
 
 	std::string toString();

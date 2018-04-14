@@ -35,6 +35,10 @@ Node::Node(const std::string &text) {
 	}
 }
 
+Node* Node::copy() {
+	return new Node(toString());
+}
+
 std::string Node::toString() {
 	std::ostringstream ss;
 	ss << name << " ";;

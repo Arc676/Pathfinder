@@ -30,6 +30,7 @@ class Node {
 	std::map<std::string, float> adjacentNodes;
 public:
 	Node(const std::string&);
+	Node* copy();
 	std::string toString();
 
 	std::map<std::string, float> getAdjacentNodes();

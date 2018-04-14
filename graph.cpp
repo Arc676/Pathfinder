@@ -32,6 +32,14 @@ Graph::Graph(const std::string &filename) : Graph() {
 	file.close();
 }
 
+Graph* Graph::copy() {
+	Graph* g = new Graph();
+	for (std::map<std::string, Node*>::iterator it = nodes.begin(); it != nodes.end(); it++) {
+		g->addNodeFromString(it->second->toString());
+	}
+	return g;
+}
+
 Node* Graph::addNodeFromString(const std::string& data) {
 	Node* n = new Node(data);
 	nodes[n->getName()] = n;
@@ -114,6 +122,7 @@ float Graph::totalGraphWeight() {
 	return totalWeight / 2;
 }
 
-Graph* minimumSpanningTree() {
-	return 0;
+Graph* Graph::minimumSpanningTree() {
+	Graph* g = copy();
+	return g;
 }
