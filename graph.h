@@ -39,6 +39,10 @@ public:
 	void removeNode(Node*);
 
 	void renameNode(Node*, const std::string&);
+
+	float totalGraphWeight();
+
+	Graph* minimumSpanningTree();
 };
 
 #endif

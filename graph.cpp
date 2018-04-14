@@ -102,3 +102,18 @@ void Graph::renameNode(Node* node, const std::string &newName) {
 		}
 	}
 }
+
+float Graph::totalGraphWeight() {
+	float totalWeight = 0;
+	for (std::map<std::string, Node*>::iterator it = nodes.begin(); it != nodes.end(); it++) {
+		std::map<std::string, float> adjacent = it->second->getAdjacentNodes();
+		for (std::map<std::string, float>::iterator it2 = adjacent.begin(); it2 != adjacent.end(); it2++) {
+			totalWeight += it2->second;
+		}
+	}
+	return totalWeight / 2;
+}
+
+Graph* minimumSpanningTree() {
+	return 0;
+}
