@@ -27,7 +27,7 @@ Graph::Graph(const std::string &filename) : Graph() {
 	}
 	std::string line;
 	while (getline(file, line)) {
-		loadGraphDataFromString(line);
+		addNodeFromString(line);
 	}
 	file.close();
 }
