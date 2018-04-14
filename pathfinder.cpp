@@ -36,10 +36,10 @@ std::list<Node*> Pathfinder::dijkstra(Graph* graph, Node* start, Node* end) {
 		if (nodeInfo[end].locked) {
 			break;
 		}
-		std::map<std::string, float> adjacent = current->getAdjacentNodes();
-		for (std::map<std::string, float>::iterator it = adjacent.begin(); it != adjacent.end(); it++) {
+		std::map<std::string, Edge*> adjacent = current->getAdjacentNodes();
+		for (std::map<std::string, Edge*>::iterator it = adjacent.begin(); it != adjacent.end(); it++) {
 			Node* nextNode = nodes[it->first];
-			float currentDistance = it->second + nodeInfo[current].distance;
+			float currentDistance = it->second->getWeight() + nodeInfo[current].distance;
 			if (nodeInfo[nextNode].distance < 0 ||
 			    currentDistance < nodeInfo[nextNode].distance) {
 				nodeInfo[nextNode].distance = currentDistance;

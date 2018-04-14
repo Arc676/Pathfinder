@@ -71,11 +71,11 @@ void Node::addAdjacentNodeByName(const std::string &name, float distance) {
 	adjacentNodes[name] = new Edge(getName(), name, distance);
 }
 
-void Node::updateAdjacentNodeName(const std::string &old, const std::string &new) {
-	Edge* edge = adjacentNodes[old];
-	adjacentNodes.erase(old);
-	edge->setNode2(new);
-	adjacentNodes[new] = edge;
+void Node::updateAdjacentNodeName(const std::string &oldName, const std::string &newName) {
+	Edge* edge = adjacentNodes[oldName];
+	adjacentNodes.erase(oldName);
+	edge->setNode2(newName);
+	adjacentNodes[newName] = edge;
 }
 
 void Node::updateAdjacentNodeDistance(const std::string &node, float dist) {
