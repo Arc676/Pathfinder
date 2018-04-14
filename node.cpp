@@ -54,6 +54,9 @@ std::map<std::string, Edge*> Node::getAdjacentNodes() {
 
 void Node::setName(const std::string &newName) {
 	name = newName;
+	for (std::map<std::string, Edge*>::iterator it = adjacentNodes.begin(); it != adjacentNodes.end(); it++) {
+		it->second->setNode1(newName);
+	}
 }
 
 std::string Node::getName() {
@@ -66,6 +69,17 @@ void Node::addAdjacentNode(Node* node, float distance) {
 
 void Node::addAdjacentNodeByName(const std::string &name, float distance) {
 	adjacentNodes[name] = new Edge(getName(), name, distance);
+}
+
+void Node::updateAdjacentNodeName(const std::string &old, const std::string &new) {
+	Edge* edge = adjacentNodes[old];
+	adjacentNodes.erase(old);
+	edge->setNode2(new);
+	adjacentNodes[new] = edge;
+}
+
+void Node::updateAdjacentNodeDistance(const std::string &node, float dist) {
+	adjacentNodes[node]->setWeight(dist);
 }
 
 void Node::removeAdjacentNode(Node* node) {

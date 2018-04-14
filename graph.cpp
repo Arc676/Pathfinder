@@ -94,19 +94,9 @@ void Graph::renameNode(Node* node, const std::string &newName) {
 	modifiedNode->setName(newName);
 	nodes[newName] = modifiedNode;
 	for (std::map<std::string, Node*>::iterator it = nodes.begin(); it != nodes.end(); it++) {
-		std::map<std::string, float> adjacent = it->second->getAdjacentNodes();
-		bool needsUpdate = false;
-		float dist = 0;
-		for (std::map<std::string, float>::iterator it2 = adjacent.begin(); it2 != adjacent.end(); it2++) {
-			if (it2->first == originalName) {
-				needsUpdate = true;
-				dist = it2->second;
-				break;
-			}
-		}
-		if (needsUpdate) {
-			it->second->removeAdjacentNodeByName(originalName);
-			it->second->addAdjacentNode(modifiedNode, dist);
+		std::map<std::string, Edge*> adjacent = it->second->getAdjacentNodes();
+		if (adjacent.count(originalName)) {
+			it->second->updateAdjacentNodeName(originalName, newName);
 		}
 	}
 }
@@ -114,9 +104,9 @@ void Graph::renameNode(Node* node, const std::string &newName) {
 float Graph::totalGraphWeight() {
 	float totalWeight = 0;
 	for (std::map<std::string, Node*>::iterator it = nodes.begin(); it != nodes.end(); it++) {
-		std::map<std::string, float> adjacent = it->second->getAdjacentNodes();
-		for (std::map<std::string, float>::iterator it2 = adjacent.begin(); it2 != adjacent.end(); it2++) {
-			totalWeight += it2->second;
+		std::map<std::string, Edge*> adjacent = it->second->getAdjacentNodes();
+		for (std::map<std::string, Edge*>::iterator it2 = adjacent.begin(); it2 != adjacent.end(); it2++) {
+			totalWeight += it2->second->getWeight();
 		}
 	}
 	return totalWeight / 2;

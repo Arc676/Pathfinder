@@ -27,6 +27,10 @@ class Edge {
 public:
 	Edge(std::string, std::string, float);
 
+	void setNode1(const std::string&);
+	void setNode2(const std::string&);
+	void setWeight(float);
+
 	std::string getNode1();
 	std::string getNode2();
 	float getWeight();

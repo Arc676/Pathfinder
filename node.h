@@ -43,6 +43,9 @@ public:
 	void addAdjacentNodeByName(const std::string&, float);
 	void addAdjacentNode(Node*, float);
 
+	void updateAdjacentNodeName(const std::string&, const std::string&);
+	void updateAdjacentNodeDistance(const std::string&, float);
+
 	void removeAdjacentNodeByName(const std::string&);
 	void removeAdjacentNode(Node*);
 };

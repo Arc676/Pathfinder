@@ -19,12 +19,24 @@
 
 Edge::Edge(std::string n1, std::string n2, float dist) : node1(n1), node2(n2), dist(dist) {}
 
+void Edge::setNode1(const std::string &n) {
+	node1 = n;
+}
+
 std::string Edge::getNode1() {
 	return node1;
 }
 
+void Edge::setNode2(const std::string &n) {
+	node2 = n;
+}
+
 std::string Edge::getNode2() {
 	return node2;
+}
+
+void Edge::setWeight(float dist) {
+	this->dist = dist;
 }
 
 float Edge::getWeight() {
