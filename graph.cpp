@@ -160,8 +160,8 @@ Graph* Graph::minimumSpanningTree() {
 	//sort the list of edges by weight
 	edges.sort(edgeCompare);
 
-	//list of nodes already connected
-	std::list<std::string> spannedNodes = std::list<std::string>();
+	//set of nodes already connected
+	std::set<std::string> spannedNodes = std::set<std::string>();
 
 	//nodes in graph
 	std::map<std::string, Node*> gnodes = g->getNodes();
@@ -170,39 +170,25 @@ Graph* Graph::minimumSpanningTree() {
 	int edgesAdded = 0;
 	for (std::list<Edge*>::iterator it = edges.begin(); it != edges.end(); it++) {
 		Edge* edge = *it;
-		bool n1Found = false, n2Found = false;
+		Node* n1 = gnodes[edge->getNode1()];
+		Node* n2 = gnodes[edge->getNode2()];
 
-		//search for the edge's endpoints
-		for (std::list<std::string>::iterator node = spannedNodes.begin(); node != spannedNodes.end(); node++) {
-			if (!n1Found && *node == edge->getNode1()) {
-				n1Found = true;
-			}
-			if (!n2Found && *node == edge->getNode2()) {
-				n2Found = true;
-			}
-			//if both nodes found, stop looking
-			if (n1Found && n2Found) {
-				break;
-			}
+		//connect the nodes
+		g->connectNodes(n1, n2, edge->getWeight());
+
+		std::map<Node*, bool> visited = std::map<Node*, bool>();
+		for (std::map<std::string, Node*>::iterator it = nodes.begin(); it != nodes.end(); it++) {
+			visited[it->second] = false;
 		}
 
-		//in order for a cycle to form, both endpoints must already be spanned
-		//if either endpoint is missing, add the edge
-		if (!n1Found || !n2Found) {
-			Node* n1 = gnodes[edge->getNode1()];
-			Node* n2 = gnodes[edge->getNode2()];
-
-			//connect nodes
-			connectNodes(n1, n2, edge->getWeight());
+		//if adding this edge creates a cycle, discard the edge
+		//otherwise, add the edge and continue
+		if (g->hasCycleFrom(n1, visited, nullptr)) {
+			g->disconnectNodes(n1, n2);
+		} else {
 			edgesAdded++;
-
-			//if necessary, indicate nodes are now connected
-			if (!n1Found) {
-				spannedNodes.push_back(edge->getNode1());
-			}
-			if (!n2Found) {
-				spannedNodes.push_back(edge->getNode2());
-			}
+			spannedNodes.insert(edge->getNode1());
+			spannedNodes.insert(edge->getNode2());
 		}
 
 		//if all nodes are spanned AND there are (v - 1) edges, MST has been created

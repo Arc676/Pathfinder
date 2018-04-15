@@ -22,6 +22,7 @@
 #include <fstream>
 #include <map>
 #include <list>
+#include <set>
 #include <algorithm>
 
 #include "node.h"
