@@ -21,3 +21,7 @@ Available algorithms:
 Pathfinder library available under the terms of GPLv3.
 
 Cycle detection algorithm based on sample code [provided here](https://www.geeksforgeeks.org/detect-cycle-undirected-graph/) available under [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/) by GeeksForGeeks..
+
+### Repository info
+
+New features are merged into the `master` branch as soon as they work. For the source code for complete releases, please download the source archives from the release pages.
