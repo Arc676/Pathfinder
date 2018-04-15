@@ -27,6 +27,11 @@ class Edge {
 public:
 	Edge(std::string, std::string, float);
 
+	bool operator== (const Edge&, const Edge&);
+	bool operator!= (const Edge&, const Edge&);
+
+	Edge* reverse();
+
 	void setNode1(const std::string&);
 	void setNode2(const std::string&);
 	void setWeight(float);
