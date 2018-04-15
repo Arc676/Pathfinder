@@ -38,10 +38,6 @@ bool Edge::operator!= (const Edge &e1, const Edge &e2) {
 	return !(e1 == e2);
 }
 
-Edge* Edge::reverse() {
-	return new Edge(node2, node1, dist);
-}
-
 void Edge::setNode1(const std::string &n) {
 	node1 = n;
 }
