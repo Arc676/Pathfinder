@@ -50,6 +50,9 @@ public:
 	float totalGraphWeight();
 
 	Graph* minimumSpanningTree();
+
+	bool isCyclic();
+	bool hasCycleFrom(Node*, std::map<Node*, bool>&, Node*);
 };
 
 #endif

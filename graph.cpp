@@ -214,3 +214,35 @@ Graph* Graph::minimumSpanningTree() {
 	//return the minimum spanning tree
 	return g;
 }
+
+bool Graph::isCyclic() {
+	std::map<Node*, bool> visited = std::map<Node*, bool>();
+	for (std::map<std::string, Node*>::iterator it = nodes.begin(); it != nodes.end(); it++) {
+		visited[it->second] = false;
+	}
+	for (std::map<std::string, Node*>::iterator it = nodes.begin(); it != nodes.end(); it++) {
+		Node* node = it->second;
+		if (!visited[node]) {
+			if (hasCycleFrom(node, visited, nullptr)) {
+				return true;
+			}
+		}
+	}
+	return false;
+}
+
+bool Graph::hasCycleFrom(Node* node, std::map<Node*, bool> &visited, Node* parent) {
+	visited[node] = true;
+	std::map<std::string, Edge*> adjacent = node->getAdjacentNodes();
+	for (std::map<std::string, Edge*>::iterator it = adjacent.begin(); it != adjacent.end(); it++) {
+		Node* adjNode = nodes[it->second->getNode2()];
+		if (!visited[adjNode]) {
+			if (hasCycleFrom(adjNode, visited, node)) {
+				return true;
+			}
+		} else if (adjNode != parent) {
+			return true;
+		}
+	}
+	return false;
+}
