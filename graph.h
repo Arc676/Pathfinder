@@ -21,6 +21,7 @@
 #include <string>
 #include <fstream>
 #include <map>
+#include <list>
 #include <algorithm>
 
 #include "node.h"

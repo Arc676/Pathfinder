@@ -113,7 +113,7 @@ float Graph::totalGraphWeight() {
 }
 
 bool edgeCompare(Edge* e1, Edge* e2) {
-	return e1->getWeight() < e2->getWeight();
+	return *e1 < *e2;
 }
 
 Graph* Graph::minimumSpanningTree() {
@@ -130,8 +130,14 @@ Graph* Graph::minimumSpanningTree() {
 
 		//check which edges to adjacent nodes are already listed
 		for (std::map<std::string, Edge*>::iterator edgeit = adjacent.begin(); edgeit != adjacent.end(); edgeit++) {
-			Edge* edge = it->second;
-			if (std::find(edges.begin(), edges.end(), *edge) == edges.end()) {
+			Edge* edge = edgeit->second;
+			bool found = false;
+			for (std::list<Edge*>::iterator it2 = edges.begin(); it2 != edges.end(); it2++) {
+				if (*edge == **it2) {
+					found = true;
+				}
+			}
+			if (!found) {
 				newEdges.push_back(edge);
 			}
 		}
@@ -142,7 +148,7 @@ Graph* Graph::minimumSpanningTree() {
 	}
 
 	//sort the list of edges by weight
-	std::sort(edges.begin(), edges.end(), edgeCompare);
+	edges.sort(edgeCompare);
 
 	//list of nodes already connected
 	std::list<std::string> spannedNodes = std::list<std::string>();
@@ -151,6 +157,7 @@ Graph* Graph::minimumSpanningTree() {
 	std::map<std::string, Node*> gnodes = g->getNodes();
 
 	//add the edges back to the graph until the graph represents a spanning tree
+	int edgesAdded = 0;
 	for (std::list<Edge*>::iterator it = edges.begin(); it != edges.end(); it++) {
 		Edge* edge = *it;
 		bool n1Found = false, n2Found = false;
@@ -178,6 +185,7 @@ Graph* Graph::minimumSpanningTree() {
 			//connect nodes
 			n1->addAdjacentNode(n2, edge->getWeight());
 			n2->addAdjacentNode(n1, edge->getWeight());
+			edgesAdded++;
 
 			//if necessary, indicate nodes are now connected
 			if (!n1Found) {
@@ -188,8 +196,8 @@ Graph* Graph::minimumSpanningTree() {
 			}
 		}
 
-		//if all nodes are spanned, MST has been created
-		if (spannedNodes.size() == gnodes.size()) {
+		//if all nodes are spanned AND there are (v - 1) edges, MST has been created
+		if (spannedNodes.size() == gnodes.size() && edgesAdded == gnodes.size() - 1) {
 			break;
 		}
 	}
