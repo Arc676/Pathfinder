@@ -112,7 +112,88 @@ float Graph::totalGraphWeight() {
 	return totalWeight / 2;
 }
 
+bool edgeCompare(Edge* e1, Edge* e2) {
+	return e1->getWeight() < e2->getWeight();
+}
+
 Graph* Graph::minimumSpanningTree() {
-	Graph* g = copy();
+	Graph* g = new Graph();
+	std::list<Edge*> edges = std::list<Edge*>();
+	
+	//copy nodes without connections to new graph
+	//build list of nodes and edges
+	for (std::map<std::string, Node*>::iterator it = nodes.begin(); it != nodes.end(); it++) {
+		g->addNodeFromString(it->second->getName());
+		std::map<std::string, Edge*> adjacent = it->second->getAdjacentNodes();
+
+		std::list<Edge*> newEdges = std::list<Edge*>();
+
+		//check which edges to adjacent nodes are already listed
+		for (std::map<std::string, Edge*>::iterator edgeit = adjacent.begin(); edgeit != adjacent.end(); edgeit++) {
+			Edge* edge = it->second;
+			if (std::find(edges.begin(), edges.end(), *edge) == edges.end()) {
+				newEdges.push_back(edge);
+			}
+		}
+		//add new edges to list
+		for (std::list<Edge*>::iterator newEdge = newEdges.begin(); newEdge != newEdges.end(); newEdge++) {
+			edges.push_back(*newEdge);
+		}
+	}
+
+	//sort the list of edges by weight
+	std::sort(edges.begin(), edges.end(), edgeCompare);
+
+	//list of nodes already connected
+	std::list<std::string> spannedNodes = std::list<std::string>();
+
+	//nodes in graph
+	std::map<std::string, Node*> gnodes = g->getNodes();
+
+	//add the edges back to the graph until the graph represents a spanning tree
+	for (std::list<Edge*>::iterator it = edges.begin(); it != edges.end(); it++) {
+		Edge* edge = *it;
+		bool n1Found = false, n2Found = false;
+
+		//search for the edge's endpoints
+		for (std::list<std::string>::iterator node = spannedNodes.begin(); node != spannedNodes.end(); node++) {
+			if (!n1Found && *node == edge->getNode1()) {
+				n1Found = true;
+			}
+			if (!n2Found && *node == edge->getNode2()) {
+				n2Found = true;
+			}
+			//if both nodes found, stop looking
+			if (n1Found && n2Found) {
+				break;
+			}
+		}
+
+		//in order for a cycle to form, both endpoints must already be spanned
+		//if either endpoint is missing, add the edge
+		if (!n1Found || !n2Found) {
+			Node* n1 = gnodes[edge->getNode1()];
+			Node* n2 = gnodes[edge->getNode2()];
+
+			//connect nodes
+			n1->addAdjacentNode(n2, edge->getWeight());
+			n2->addAdjacentNode(n1, edge->getWeight());
+
+			//if necessary, indicate nodes are now connected
+			if (!n1Found) {
+				spannedNodes.push_back(edge->getNode1());
+			}
+			if (!n2Found) {
+				spannedNodes.push_back(edge->getNode2());
+			}
+		}
+
+		//if all nodes are spanned, MST has been created
+		if (spannedNodes.size() == gnodes.size()) {
+			break;
+		}
+	}
+
+	//return the minimum spanning tree
 	return g;
 }
