@@ -11,8 +11,10 @@ Use the static methods in `Pathfinder` to find paths between any two given nodes
 
 The Graph library abstracts the graph theory and representation to allow for more focus on creating user friendly interfaces or building other functions.
 
-Available pathfinding algorithms:
+Available algorithms:
 - Dijkstra's Algorithm
+- Kruskal's Minimum Spanning Tree Algorithm
+- Depth First Search Cycle Detection
 
 ### Legal
 
