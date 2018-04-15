@@ -101,6 +101,16 @@ void Graph::renameNode(Node* node, const std::string &newName) {
 	}
 }
 
+void Graph::connectNodes(Node* n1, Node* n2, float dist) {
+	n1->addAdjacentNode(n2, dist);
+	n2->addAdjacentNode(n1, dist);
+}
+
+void Graph::disconnectNodes(Node* n1, Node* n2) {
+	n1->removeAdjacentNode(n2);
+	n2->removeAdjacentNode(n1);
+}
+
 float Graph::totalGraphWeight() {
 	float totalWeight = 0;
 	for (std::map<std::string, Node*>::iterator it = nodes.begin(); it != nodes.end(); it++) {
@@ -183,8 +193,7 @@ Graph* Graph::minimumSpanningTree() {
 			Node* n2 = gnodes[edge->getNode2()];
 
 			//connect nodes
-			n1->addAdjacentNode(n2, edge->getWeight());
-			n2->addAdjacentNode(n1, edge->getWeight());
+			connectNodes(n1, n2, edge->getWeight());
 			edgesAdded++;
 
 			//if necessary, indicate nodes are now connected

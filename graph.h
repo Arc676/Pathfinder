@@ -44,6 +44,9 @@ public:
 
 	void renameNode(Node*, const std::string&);
 
+	void connectNodes(Node*, Node*, float);
+	void disconnectNodes(Node*, Node*);
+
 	float totalGraphWeight();
 
 	Graph* minimumSpanningTree();
