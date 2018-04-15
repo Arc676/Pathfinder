@@ -19,23 +19,27 @@
 
 Edge::Edge(std::string n1, std::string n2, float dist) : node1(n1), node2(n2), dist(dist) {}
 
-bool Edge::operator== (const Edge &e1, const Edge &e2) {
+bool Edge::operator== (const Edge &e) {
 	//edges are not equal if their weights differ
-	if (e1.dist != e2.dist) {
+	if (dist != e.dist) {
 		return false;
 	}
 	//edges are equal if they have the same endpoints regardless of direction
-	if (e1.node1 == e2.node1 && e1.node2 == e2.node2) {
+	if (node1 == e.node1 && node2 == e.node2) {
 		return true;
 	}
-	if (e1.node1 == e2.node2 && e1.node2 == e2.node1) {
+	if (node1 == e.node2 && node2 == e.node1) {
 		return true;
 	}
 	return false;
 }
 
-bool Edge::operator!= (const Edge &e1, const Edge &e2) {
-	return !(e1 == e2);
+bool Edge::operator!= (const Edge &e) {
+	return !(*this == e);
+}
+
+bool Edge::operator< (const Edge &e) {
+	return dist < e.dist;
 }
 
 void Edge::setNode1(const std::string &n) {
