@@ -31,8 +31,22 @@ class Node {
 	std::string name;
 	std::map<std::string, Edge*> adjacentNodes;
 public:
-	Node(const std::string&);
+	/**
+	 * Create a new node with the given data
+	 * @param data Node data in string form
+	 */
+	Node(const std::string& data);
+
+	/**
+	 * Copy the node
+	 * @return A deep copy of the node
+	 */
 	Node* copy();
+
+	/**
+	 * Convert the node to string form
+	 * @return String containing node data
+	 */
 	std::string toString();
 
 	std::map<std::string, Edge*> getAdjacentNodes();
@@ -40,14 +54,45 @@ public:
 	void setName(const std::string&);
 	std::string getName();
 
-	void addAdjacentNodeByName(const std::string&, float);
-	void addAdjacentNode(Node*, float);
+	/**
+	 * Indicate that a given node is adjacent to this one
+	 * @param n Name of adjacent node
+	 * @param d Weight of connecting edge
+	 */
+	void addAdjacentNodeByName(const std::string& n, float d);
 
-	void updateAdjacentNodeName(const std::string&, const std::string&);
-	void updateAdjacentNodeDistance(const std::string&, float);
+	/**
+	 * Indicate that a given node is adjacent to this one
+	 * @param n The adjacent node
+	 * @param d Weight of conencting edge
+	 */
+	void addAdjacentNode(Node* n, float d);
 
-	void removeAdjacentNodeByName(const std::string&);
-	void removeAdjacentNode(Node*);
+	/**
+	 * Change the name of an adjacent node
+	 * @param name The name of the node
+	 * @param newname The new name of the node
+	 */
+	void updateAdjacentNodeName(const std::string& name, const std::string& newname);
+
+	/**
+	 * Change the weight of the edge to an adjacent node
+	 * @param name The name of the node
+	 * @param weight The new weight of the edge
+	 */
+	void updateAdjacentNodeDistance(const std::string& name, float weight);
+
+	/**
+	 * Indicate that a given node is not adjacent to this one
+	 * @param n The name of the node
+	 */
+	void removeAdjacentNodeByName(const std::string& n);
+
+	/**
+	 * Indicate that a given node is not adjacent to this one
+	 * @param n The node
+	 */
+	void removeAdjacentNode(Node* n);
 };
 
 #endif

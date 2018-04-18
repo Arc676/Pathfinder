@@ -34,6 +34,14 @@ struct NodeInfo {
 
 class Pathfinder {
 public:
+	/**
+	 * Find the shortest path between two nodes using
+	 * Dijkstra's Algorithm
+	 * @param g The graph in which to search
+	 * @param n1 The starting node
+	 * @param n2 The destination node
+	 * @return A list representing the shortest path found
+	 */
 	static std::list<Node*> dijkstra(Graph*, Node*, Node*);
 };
 

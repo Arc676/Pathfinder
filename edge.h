@@ -25,11 +25,36 @@ class Edge {
 	std::string node2;
 	float dist;
 public:
-	Edge(std::string, std::string, float);
+	/**
+	 * Create a new Edge
+	 * @param n1 First node
+	 * @param n2 Second node
+	 * @param d Edge weight
+	 */
+	Edge(std::string n1, std::string n2, float d);
 
-	bool operator== (const Edge&);
-	bool operator!= (const Edge&);
-	bool operator<  (const Edge&);
+	/**
+	 * Compare two edges for equality; Edges are equal
+	 * if they have the same weight and connect
+	 * the same endpoints
+	 * @param e Other edge
+	 * @return Whether the edges are equal
+	 */
+	bool operator== (const Edge& e);
+
+	/**
+	 * Check if edges are not equal
+	 * @param e Other edge
+	 * @return Whether the edges are not the same edge
+	 */
+	bool operator!= (const Edge& e);
+
+	/**
+	 * Compare edges
+	 * @param e Other edge
+	 * @return Whether this edge has a lower weight than the other edge
+	 */
+	bool operator<  (const Edge& e);
 
 	void setNode1(const std::string&);
 	void setNode2(const std::string&);

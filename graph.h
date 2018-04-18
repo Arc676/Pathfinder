@@ -30,30 +30,106 @@
 class Graph {
 	std::map<std::string, Node*> nodes;
 public:
+	/**
+	 * Create an empty graph
+	 */
 	Graph();
-	Graph(const std::string&);
+
+	/**
+	 * Load a graph from file
+	 * @param fn Filename
+	 */
+	Graph(const std::string& fn);
+
+	/**
+	 * Copy a graph
+	 * @return A deep copy of the graph
+	 */
 	Graph* copy();
 
-	Node* addNodeFromString(const std::string&);
+	/**
+	 * Create a new node from string form and
+	 * add it to the graph
+	 * @param data Node data in string form
+	 */
+	Node* addNodeFromString(const std::string& data);
 
+	/**
+	 * Convert the graph to string form
+	 * @return String representing graph
+	 */
 	std::string toString();
-	void save(const std::string&);
+
+	/**
+	 * Save the graph to disk
+	 * @param fn Filename
+	 */
+	void save(const std::string& fn);
 
 	std::map<std::string, Node*> getNodes();
-	void addNode(Node*);
-	void removeNode(Node*);
 
-	void renameNode(Node*, const std::string&);
+	/**
+	 * Add a node to the graph
+	 * @param n Node to add
+	 */
+	void addNode(Node* n);
 
-	void connectNodes(Node*, Node*, float);
-	void disconnectNodes(Node*, Node*);
+	/**
+	 * Remove a node from the graph
+	 * @param n Node to remove
+	 */
+	void removeNode(Node* n);
 
+	/**
+	 * Rename a node in the graph
+	 * @param node Node to rename
+	 * @param name New name for node
+	 */
+	void renameNode(Node* node, const std::string& name);
+
+	/**
+	 * Connect two nodes in the graph
+	 * @param n1 First node
+	 * @param n2 Second node
+	 * @param d Distance
+	 */
+	void connectNodes(Node* n1, Node* n2, float d);
+
+	/**
+	 * Disconnect two nodes in the graph
+	 * @param n1 First node
+	 * @param n2 Second node
+	 */
+	void disconnectNodes(Node* n1, Node* n2);
+
+	/**
+	 * Determine the total weight of the graph
+	 * @return The sum of the weights of all the edges
+	 */
 	float totalGraphWeight();
 
+	/**
+	 * Obtain the minimum spanning tree for the graph
+	 * using Kruskal's algorithm
+	 * @return A new Graph object representing the MST
+	 */
 	Graph* minimumSpanningTree();
 
+	/**
+	 * Determine whether the graph is cyclic
+	 * @return Whether any cycles are present in the graph
+	 */
 	bool isCyclic();
-	bool hasCycleFrom(Node*, std::map<Node*, bool>&, Node*);
+
+	/**
+	 * Determine whether there is a cycle, starting at a given node
+	 * and searching recursively
+	 * @param n Node from which to start searching
+	 * @param visited Map indicating which nodes have been visited
+	 * @param p The node from which the search began
+	 * @return Whether a cycle has been found
+	 */
+	bool hasCycleFrom(Node* n, std::map<Node*, bool>& visited, Node* p);
 };
 
 #endif
