@@ -25,3 +25,7 @@ Cycle detection algorithm based on sample code [provided here](https://www.geeks
 ### Repository info
 
 New features are merged into the `master` branch as soon as they work. For the source code for complete releases, please download the source archives from the release pages.
+
+### Dependencies
+
+Requires C++11 for range based for loops.
