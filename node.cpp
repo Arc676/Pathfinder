@@ -42,8 +42,8 @@ Node* Node::copy() {
 std::string Node::toString() {
 	std::ostringstream ss;
 	ss << name << " ";;
-	for (auto const& kv : adjacentNodes) {
-		ss << kv.first << " " << kv.second->getWeight() << " ";
+	for (auto const& [node, edge] : adjacentNodes) {
+		ss << node << " " << edge->getWeight() << " ";
 	}
 	return ss.str();
 }
@@ -54,8 +54,8 @@ std::map<std::string, Edge*> Node::getAdjacentNodes() {
 
 void Node::setName(const std::string &newName) {
 	name = newName;
-	for (auto const& kv : adjacentNodes) {
-		kv.second->setNode1(newName);
+	for (auto const& [node, edge] : adjacentNodes) {
+		edge->setNode1(newName);
 	}
 }
 

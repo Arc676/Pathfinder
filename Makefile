@@ -1,5 +1,5 @@
 CC=g++
-FLAGS=-std=c++11 -c
+FLAGS=-std=c++17 -c
 OBJS=node.o graph.o pathfinder.o edge.o
 OUT=libgraph.a
 

@@ -28,4 +28,4 @@ New features are merged into the `master` branch as soon as they work. For the s
 
 ### Dependencies
 
-Requires C++11 for range based for loops.
+Requires C++17 for range based for loops and structured bindings.
