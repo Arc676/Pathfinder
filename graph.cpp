@@ -34,8 +34,8 @@ Graph::Graph(const std::string &filename) : Graph() {
 
 Graph* Graph::copy() {
 	Graph* g = new Graph();
-	for (std::map<std::string, Node*>::iterator it = nodes.begin(); it != nodes.end(); it++) {
-		g->addNode(it->second->copy());
+	for (auto const& [name, node] : nodes) {
+		g->addNode(node->copy());
 	}
 	return g;
 }
@@ -58,8 +58,8 @@ void Graph::save(const std::string &filename) {
 
 std::string Graph::toString() {
 	std::stringstream ss;
-	for (std::map<std::string, Node*>::iterator it = nodes.begin(); it != nodes.end(); it++) {
-		ss << it->second->toString() << "\n";
+	for (auto const& [name, node] : nodes) {
+		ss << node->toString() << "\n";
 	}
 	return ss.str();
 }
@@ -72,16 +72,16 @@ void Graph::addNode(Node* node) {
 	nodes[node->getName()] = node;
 }
 
-void Graph::removeNode(Node* node) {
-	for (std::map<std::string, Node*>::iterator it = nodes.begin(); it != nodes.end(); it++) {
-		if (it->second->getName() == node->getName()) {
+void Graph::removeNode(Node* toRemove) {
+	for (auto const& [name, node] : nodes) {
+		if (node->getName() == toRemove->getName()) {
 			continue;
 		}
-		if (it->second->getAdjacentNodes().count(node->getName()) != 0) {
-			it->second->removeAdjacentNode(node);
+		if (node->getAdjacentNodes().count(toRemove->getName()) != 0) {
+			node->removeAdjacentNode(toRemove);
 		}
 	}
-	nodes.erase(node->getName());
+	nodes.erase(toRemove->getName());
 }
 
 void Graph::renameNode(Node* node, const std::string &newName) {
@@ -93,10 +93,10 @@ void Graph::renameNode(Node* node, const std::string &newName) {
 	nodes.erase(originalName);
 	modifiedNode->setName(newName);
 	nodes[newName] = modifiedNode;
-	for (std::map<std::string, Node*>::iterator it = nodes.begin(); it != nodes.end(); it++) {
-		std::map<std::string, Edge*> adjacent = it->second->getAdjacentNodes();
+	for (auto const& [name, node] : nodes) {
+		std::map<std::string, Edge*> adjacent = node->getAdjacentNodes();
 		if (adjacent.count(originalName)) {
-			it->second->updateAdjacentNodeName(originalName, newName);
+			node->updateAdjacentNodeName(originalName, newName);
 		}
 	}
 }
@@ -113,10 +113,10 @@ void Graph::disconnectNodes(Node* n1, Node* n2) {
 
 float Graph::totalGraphWeight() {
 	float totalWeight = 0;
-	for (std::map<std::string, Node*>::iterator it = nodes.begin(); it != nodes.end(); it++) {
-		std::map<std::string, Edge*> adjacent = it->second->getAdjacentNodes();
-		for (std::map<std::string, Edge*>::iterator it2 = adjacent.begin(); it2 != adjacent.end(); it2++) {
-			totalWeight += it2->second->getWeight();
+	for (auto const& [name, node] : nodes) {
+		std::map<std::string, Edge*> adjacent = node->getAdjacentNodes();
+		for (auto const& [adjName, edge] : adjacent) {
+			totalWeight += edge->getWeight();
 		}
 	}
 	return totalWeight / 2;
@@ -132,19 +132,19 @@ Graph* Graph::minimumSpanningTree() {
 	
 	//copy nodes without connections to new graph
 	//build list of nodes and edges
-	for (std::map<std::string, Node*>::iterator it = nodes.begin(); it != nodes.end(); it++) {
-		g->addNodeFromString(it->second->getName());
-		std::map<std::string, Edge*> adjacent = it->second->getAdjacentNodes();
+	for (auto const& [nodeName, node] : nodes) {
+		g->addNodeFromString(nodeName);
+		std::map<std::string, Edge*> adjacent = node->getAdjacentNodes();
 
 		std::list<Edge*> newEdges = std::list<Edge*>();
 
 		//check which edges to adjacent nodes are already listed
-		for (std::map<std::string, Edge*>::iterator edgeit = adjacent.begin(); edgeit != adjacent.end(); edgeit++) {
-			Edge* edge = edgeit->second;
+		for (auto const& [adjName, edge] : adjacent) {
 			bool found = false;
-			for (std::list<Edge*>::iterator it2 = edges.begin(); it2 != edges.end(); it2++) {
-				if (*edge == **it2) {
+			for (auto const& edge2 : edges) {
+				if (*edge == *edge2) {
 					found = true;
+					break;
 				}
 			}
 			if (!found) {
@@ -152,8 +152,8 @@ Graph* Graph::minimumSpanningTree() {
 			}
 		}
 		//add new edges to list
-		for (std::list<Edge*>::iterator newEdge = newEdges.begin(); newEdge != newEdges.end(); newEdge++) {
-			edges.push_back(*newEdge);
+		for (auto const& newEdge : newEdges) {
+			edges.push_back(newEdge);
 		}
 	}
 
@@ -168,8 +168,7 @@ Graph* Graph::minimumSpanningTree() {
 
 	//add the edges back to the graph until the graph represents a spanning tree
 	int edgesAdded = 0;
-	for (std::list<Edge*>::iterator it = edges.begin(); it != edges.end(); it++) {
-		Edge* edge = *it;
+	for (auto const& edge : edges) {
 		Node* n1 = gnodes[edge->getNode1()];
 		Node* n2 = gnodes[edge->getNode2()];
 
@@ -177,8 +176,8 @@ Graph* Graph::minimumSpanningTree() {
 		g->connectNodes(n1, n2, edge->getWeight());
 
 		std::map<Node*, bool> visited = std::map<Node*, bool>();
-		for (std::map<std::string, Node*>::iterator it = nodes.begin(); it != nodes.end(); it++) {
-			visited[it->second] = false;
+		for (auto const& [name, node] : nodes) {
+			visited[node] = false;
 		}
 
 		//if adding this edge creates a cycle, discard the edge
@@ -203,11 +202,10 @@ Graph* Graph::minimumSpanningTree() {
 
 bool Graph::isCyclic() {
 	std::map<Node*, bool> visited = std::map<Node*, bool>();
-	for (std::map<std::string, Node*>::iterator it = nodes.begin(); it != nodes.end(); it++) {
-		visited[it->second] = false;
+	for (auto const& [name, node] : nodes) {
+		visited[node] = false;
 	}
-	for (std::map<std::string, Node*>::iterator it = nodes.begin(); it != nodes.end(); it++) {
-		Node* node = it->second;
+	for (auto const& [name, node] : nodes) {
 		if (!visited[node]) {
 			if (hasCycleFrom(node, visited, nullptr)) {
 				return true;
@@ -220,8 +218,8 @@ bool Graph::isCyclic() {
 bool Graph::hasCycleFrom(Node* node, std::map<Node*, bool> &visited, Node* parent) {
 	visited[node] = true;
 	std::map<std::string, Edge*> adjacent = node->getAdjacentNodes();
-	for (std::map<std::string, Edge*>::iterator it = adjacent.begin(); it != adjacent.end(); it++) {
-		Node* adjNode = nodes[it->second->getNode2()];
+	for (auto const& [adjName, edge] : adjacent) {
+		Node* adjNode = nodes[edge->getNode2()];
 		if (!visited[adjNode]) {
 			if (hasCycleFrom(adjNode, visited, node)) {
 				return true;
