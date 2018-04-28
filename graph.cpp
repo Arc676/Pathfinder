@@ -19,17 +19,50 @@
 
 Graph::Graph() : nodes() {}
 
-Graph::Graph(const std::string &filename) : Graph() {
+Graph* Graph::graphFromFile(const std::string &filename) {
 	std::ifstream file;
 	file.open(filename);
 	if (!file.is_open()) {
-		return;
+		return nullptr;
 	}
+	Graph* g = new Graph();
 	std::string line;
 	while (getline(file, line)) {
-		addNodeFromString(line);
+		g->addNodeFromString(line);
 	}
 	file.close();
+	return g;
+}
+
+Graph* Graph::graphFromAdjacencyTable(const std::string &filename) {
+	std::ifstream file;
+	file.open(filename);
+	if (!file.is_open()) {
+		return nullptr;
+	}
+	Graph* g = new Graph();
+	std::string line;
+	std::stringstream nodedata;
+	int node = 0;
+	while (getline(file, line)) {
+		nodedata << node << " ";
+
+		std::stringstream row(line);
+		std::string edge;
+		int adj = 0;
+		while (getline(row, edge, ',')) {
+			try {
+				float weight = std::stof(edge);
+				nodedata << adj << " " << weight << " ";
+			} catch (const std::invalid_argument &e) {}
+			adj++;
+		}
+		g->addNodeFromString(nodedata.str());
+		nodedata.str("");
+		node++;
+	}
+	file.close();
+	return g;
 }
 
 Graph* Graph::copy() {

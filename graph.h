@@ -20,6 +20,7 @@
 
 #include <string>
 #include <fstream>
+#include <stdexcept>
 #include <map>
 #include <list>
 #include <set>
@@ -36,10 +37,20 @@ public:
 	Graph();
 
 	/**
-	 * Load a graph from file
+	 * Load a graph from a file in the Pathfinder format
 	 * @param fn Filename
+	 * @return The graph represented in the file
 	 */
-	Graph(const std::string& fn);
+	static Graph* graphFromFile(const std::string& fn);
+
+	/**
+	 * Load a graph from a file containing an adjacency table
+	 * in CSV format (nonexistent links represented by any
+	 * string that cannot be parsed)
+	 * @param fn Filename
+	 * @return The graph represented by the table in the file
+	 */
+	static Graph* graphFromAdjacencyTable(const std::string& fn);
 
 	/**
 	 * Copy a graph
