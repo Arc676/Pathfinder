@@ -41,8 +41,19 @@ Node* Node::copy() {
 
 std::string Node::toString() {
 	std::ostringstream ss;
-	ss << name << " ";;
+	ss << name << " ";
+	#if __cplusplus >= 201703L
+
 	for (auto const& [node, edge] : adjacentNodes) {
+
+	#else
+
+	for (std::map<std::string, Edge*>::iterator it = adjacentNodes.begin(); it != adjacentNodes.end(); it++) {
+		std::string node = it->first;
+		Edge* edge = it->second;
+
+	#endif
+
 		ss << node << " " << edge->getWeight() << " ";
 	}
 	return ss.str();
@@ -54,7 +65,16 @@ std::map<std::string, Edge*> Node::getAdjacentNodes() {
 
 void Node::setName(const std::string &newName) {
 	name = newName;
+	#if __cplusplus >= 201703L
+
 	for (auto const& [node, edge] : adjacentNodes) {
+
+	#else
+
+	for (std::map<std::string, Edge*>::iterator it = adjacentNodes.begin(); it != adjacentNodes.end(); it++) {
+		Edge* edge = it->second;
+
+	#endif
 		edge->setNode1(newName);
 	}
 }

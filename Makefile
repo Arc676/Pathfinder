@@ -1,11 +1,13 @@
 CC=g++
-FLAGS=-std=c++17 -c
+STD=c++17
+FLAGS=-std=$(STD) -c
 OBJS=node.o graph.o pathfinder.o edge.o
 OUT=libgraph.a
 
-debug: FLAGS += -O0 -g
-debug: OUT=libgraphd.a
-debug: lib
+ifdef DEBUG
+	FLAGS += -O0 -g
+	OUT=libgraphd.a
+endif
 
 lib: $(OBJS)
 	ar rcs $(OUT) $(OBJS)

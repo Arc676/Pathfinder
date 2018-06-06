@@ -67,7 +67,17 @@ Graph* Graph::graphFromAdjacencyTable(const std::string &filename) {
 
 Graph* Graph::copy() {
 	Graph* g = new Graph();
+	#if __cplusplus >= 201703L
+
 	for (auto const& [name, node] : nodes) {
+
+	#else
+
+	for (std::map<std::string, Node*>::iterator it = nodes.begin(); it != nodes.end(); it++) {
+		Node* node = it->second;
+
+	#endif
+
 		g->addNode(node->copy());
 	}
 	return g;
@@ -91,7 +101,17 @@ void Graph::save(const std::string &filename) {
 
 std::string Graph::toString() {
 	std::stringstream ss;
+	#if __cplusplus >= 201703L
+
 	for (auto const& [name, node] : nodes) {
+
+	#else
+
+	for (std::map<std::string, Node*>::iterator it = nodes.begin(); it != nodes.end(); it++) {
+		Node* node = it->second;
+
+	#endif
+
 		ss << node->toString() << "\n";
 	}
 	return ss.str();
@@ -106,7 +126,17 @@ void Graph::addNode(Node* node) {
 }
 
 void Graph::removeNode(Node* toRemove) {
+	#if __cplusplus >= 201703L
+
 	for (auto const& [name, node] : nodes) {
+
+	#else
+
+	for (std::map<std::string, Node*>::iterator it = nodes.begin(); it != nodes.end(); it++) {
+		Node* node = it->second;
+
+	#endif
+
 		if (node->getName() == toRemove->getName()) {
 			continue;
 		}
@@ -126,7 +156,17 @@ void Graph::renameNode(Node* node, const std::string &newName) {
 	nodes.erase(originalName);
 	modifiedNode->setName(newName);
 	nodes[newName] = modifiedNode;
+	#if __cplusplus >= 201703L
+
 	for (auto const& [name, node] : nodes) {
+
+	#else
+
+	for (std::map<std::string, Node*>::iterator it = nodes.begin(); it != nodes.end(); it++) {
+		Node* node = it->second;
+
+	#endif
+
 		std::map<std::string, Edge*> adjacent = node->getAdjacentNodes();
 		if (adjacent.count(originalName)) {
 			node->updateAdjacentNodeName(originalName, newName);
@@ -146,9 +186,29 @@ void Graph::disconnectNodes(Node* n1, Node* n2) {
 
 float Graph::totalGraphWeight() {
 	float totalWeight = 0;
+	#if __cplusplus >= 201703L
+
 	for (auto const& [name, node] : nodes) {
+
+	#else
+
+	for (std::map<std::string, Node*>::iterator it = nodes.begin(); it != nodes.end(); it++) {
+		Node* node = it->second;
+
+	#endif
+
 		std::map<std::string, Edge*> adjacent = node->getAdjacentNodes();
+		#if __cplusplus >= 201703L
+
 		for (auto const& [adjName, edge] : adjacent) {
+
+		#else
+
+		for (std::map<std::string, Edge*>::iterator it2 = adjacent.begin(); it2 != adjacent.end(); it2++) {
+			Edge* edge = it2->second;
+
+		#endif
+
 			totalWeight += edge->getWeight();
 		}
 	}
@@ -162,17 +222,38 @@ bool edgeCompare(Edge* e1, Edge* e2) {
 Graph* Graph::minimumSpanningTree() {
 	Graph* g = new Graph();
 	std::list<Edge*> edges = std::list<Edge*>();
-	
+
 	//copy nodes without connections to new graph
 	//build list of nodes and edges
+	#if __cplusplus >= 201703L
+
 	for (auto const& [nodeName, node] : nodes) {
+
+	#else
+
+	for (std::map<std::string, Node*>::iterator it = nodes.begin(); it != nodes.end(); it++) {
+		std::string nodeName = it->first;
+		Node* node = it->second;
+
+	#endif
+
 		g->addNodeFromString(nodeName);
 		std::map<std::string, Edge*> adjacent = node->getAdjacentNodes();
 
 		std::list<Edge*> newEdges = std::list<Edge*>();
 
 		//check which edges to adjacent nodes are already listed
+		#if __cplusplus >= 201703L
+
 		for (auto const& [adjName, edge] : adjacent) {
+
+		#else
+
+		for (std::map<std::string, Edge*>::iterator it2 = adjacent.begin(); it2 != adjacent.end(); it2++) {
+			Edge* edge = it2->second;
+
+		#endif
+
 			bool found = false;
 			for (auto const& edge2 : edges) {
 				if (*edge == *edge2) {
@@ -209,7 +290,17 @@ Graph* Graph::minimumSpanningTree() {
 		g->connectNodes(n1, n2, edge->getWeight());
 
 		std::map<Node*, bool> visited = std::map<Node*, bool>();
+		#if __cplusplus >= 201703L
+
 		for (auto const& [name, node] : nodes) {
+
+		#else
+
+		for (std::map<std::string, Node*>::iterator it = nodes.begin(); it != nodes.end(); it++) {
+			Node* node = it->second;
+
+		#endif
+
 			visited[node] = false;
 		}
 
@@ -235,10 +326,30 @@ Graph* Graph::minimumSpanningTree() {
 
 bool Graph::isCyclic() {
 	std::map<Node*, bool> visited = std::map<Node*, bool>();
+	#if __cplusplus >= 201703L
+
 	for (auto const& [name, node] : nodes) {
+
+	#else
+
+	for (std::map<std::string, Node*>::iterator it = nodes.begin(); it != nodes.end(); it++) {
+		Node* node = it->second;
+
+	#endif
+
 		visited[node] = false;
 	}
+	#if __cplusplus >= 201703L
+
 	for (auto const& [name, node] : nodes) {
+
+	#else
+
+	for (std::map<std::string, Node*>::iterator it = nodes.begin(); it != nodes.end(); it++) {
+		Node* node = it->second;
+
+	#endif
+
 		if (!visited[node]) {
 			if (hasCycleFrom(node, visited, nullptr)) {
 				return true;
@@ -251,7 +362,17 @@ bool Graph::isCyclic() {
 bool Graph::hasCycleFrom(Node* node, std::map<Node*, bool> &visited, Node* parent) {
 	visited[node] = true;
 	std::map<std::string, Edge*> adjacent = node->getAdjacentNodes();
+	#if __cplusplus >= 201703L
+
 	for (auto const& [adjName, edge] : adjacent) {
+
+	#else
+
+	for (std::map<std::string, Edge*>::iterator it = adjacent.begin(); it != adjacent.end(); it++) {
+		Edge* edge = it->second;
+
+	#endif
+
 		Node* adjNode = nodes[edge->getNode2()];
 		if (!visited[adjNode]) {
 			if (hasCycleFrom(adjNode, visited, node)) {
